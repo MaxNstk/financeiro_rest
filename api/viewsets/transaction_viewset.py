@@ -1,11 +1,8 @@
-from rest_framework import permissions
-from rest_framework.viewsets import ModelViewSet
-
 from api.serializers.transaction_serializer import TransactionSerializer
+from api.viewsets.custom_model_viewset import CustomModelViewSet
 from finances.models import Transaction
 
 
-class TransactionViewSet(ModelViewSet):
+class TransactionViewSet(CustomModelViewSet):
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all()
-    permission_classes = [permissions.AllowAny]

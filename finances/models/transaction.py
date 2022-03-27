@@ -2,8 +2,10 @@ from datetime import datetime
 
 from django.db import models
 
+from account.models.generic import GenericModel
 
-class Transaction(models.Model):
+
+class Transaction(GenericModel):
 
     CREDIT = 1
     EXPENSE = 2
