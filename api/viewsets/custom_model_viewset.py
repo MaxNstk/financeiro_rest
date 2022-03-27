@@ -19,7 +19,6 @@ class CustomModelViewSet(ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
-        self.validate_user(request.user, instance.user)
         serializer = self.get_serializer(instance)
         response = serializer.data
         del response['user']
@@ -28,14 +27,13 @@ class CustomModelViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         request.data['user'] = request.user.id
         response = super(CustomModelViewSet, self).create(request, *args, **kwargs)
-        del response['user']
+        del response.data['user']
         return response
 
     def update(self, request, *args, **kwargs):
         request.data['user'] = request.user.id
         partial = kwargs.pop('partial', False)
         instance = self.get_object()
-        self.validate_user(request.user, instance.user)
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
@@ -46,13 +44,3 @@ class CustomModelViewSet(ModelViewSet):
             # forcibly invalidate the prefetch cache on the instance.
             instance._prefetched_objects_cache = {}
         return Response(response)
-
-    def destroy(self, request, *args, **kwargs):
-        instance = self.get_object()
-        self.validate_user(request.user, instance.user)
-        self.perform_destroy(instance)
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-    def validate_user(self, request_user, instance_user):
-        if instance_user != request_user and not request_user.is_superuser:
-            Response({"forbidden": "forbidden"}, status=status.HTTP_403_FORBIDDEN)
