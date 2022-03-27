@@ -9,9 +9,9 @@ from api.serializers.user_serializer import UserSerializer
 class CustomAuthentication(permissions.IsAuthenticated):
 
     def has_permission(self, request, view):
-        if request.method == 'POST':
+        if request.method == 'POST' or (request.user and request.user.is_authenticated):
             return True
-        super(CustomAuthentication, self).has_permission(request, view)
+        return False
 
 
 class UserViewSet(ModelViewSet):
@@ -20,7 +20,6 @@ class UserViewSet(ModelViewSet):
     permission_classes = [CustomAuthentication]
     http_method_names = ['get', 'post', 'put']
     queryset = User.objects.all()
-
 
     def list(self, request, *args, **kwargs):
         if not request.user.is_superuser:
@@ -44,7 +43,7 @@ class UserViewSet(ModelViewSet):
         serializer = self.get_serializer(instance, data=request.data, partial=partial)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        serializer.instance.set_password(request.data.password)
+        serializer.instance.set_password(request.data['password'])
         serializer.save()
         if getattr(instance, '_prefetched_objects_cache', None):
             # If 'prefetch_related' has been applied to a queryset, we need to
