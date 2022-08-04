@@ -15,7 +15,7 @@ class UserTestCase(APITestCase):
                             phone='1234567890123',
                             email='teste@teste.com')
 
-         auth_user.set_password('teste')
+         auth_user''.set_password('teste')
          self.token = Token.objects.create(user=auth_user)
          self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token.key}")
 

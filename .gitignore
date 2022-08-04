@@ -37,3 +37,4 @@ migrations/
 media/user_uploads/
 
 venv/
+.vscode/launch.json
