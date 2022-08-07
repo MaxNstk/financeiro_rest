@@ -7,7 +7,3 @@ class Wallet(models.Model):
 
     def __str__(self) -> str:
         return self.name
-    
-    def save(self, *args, **kwargs):
-        self.user = self.request.user
-        return super(Wallet, self).save(*args, **kwargs)

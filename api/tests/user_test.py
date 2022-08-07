@@ -4,33 +4,28 @@ from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
 from account.models import User
+from api.tests.custom_API_test_case import CustomAPITestCAse
 
 
-class UserTestCase(APITestCase):
+class UserTestCase(CustomAPITestCAse):
 
     def setUp(self):
-         auth_user = User.objects.create(first_name='autorizado',
-                            last_name='teste',
-                            username='auth',
-                            phone='1234567890123',
-                            email='teste@teste.com')
 
-         auth_user''.set_password('teste')
-         self.token = Token.objects.create(user=auth_user)
-         self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token.key}")
+        super(UserTestCase, self).setUp()
+        User.objects.create(first_name='comum',
+                        last_name='teste',
+                        username='non_auth',
+                        phone='1234567890123',
+                        email='teste@teste.com').set_password('teste')
 
-         User.objects.create(first_name='comum',
-                            last_name='teste',
-                            username='non_auth',
-                            phone='1234567890123',
-                            email='teste@teste.com').set_password('teste')
-
-         pipoca = User.objects.create(first_name='admin',
-                             last_name='admin',
-                             username='admin',
-                             phone='1234567890123',
-                             email='admin@teste.com',
-                             is_superuser=True).set_password('testingpas123')
+        admin = User.objects.create(first_name='admin',
+                         last_name='admin',
+                         username='admin',
+                         phone='1234567890123',
+                         email='admin@teste.com',
+                         is_superuser=True)
+        admin.set_password('testingpas123')
+        admin.save()
 
     def test_obtain_auth_token(self):
         self.client.credentials()

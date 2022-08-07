@@ -4,5 +4,6 @@ from finances.models import Transaction
 
 
 class TransactionViewSet(CustomModelViewSet):
+    model = Transaction
     serializer_class = TransactionSerializer
     queryset = Transaction.objects.all()

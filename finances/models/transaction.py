@@ -6,7 +6,6 @@ from finances.models.generic import GenericModel
 from django.core.validators import MinValueValidator
 
 
-
 class Transaction(GenericModel):
 
     CREDIT = 1
@@ -18,7 +17,6 @@ class Transaction(GenericModel):
     BI_MONTHLY = 4
     SEMIANUALLY = 5
     YEARLY = 6
-
 
     type_CHOICES = [(CREDIT, 'Renda'),
                     (EXPENSE, 'Despesa')]
@@ -32,13 +30,13 @@ class Transaction(GenericModel):
         (YEARLY, 'Anualmente'),
     ]
 
+    description = models.TextField(max_length=255)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
     sub_category = models.ForeignKey('SubCategory', on_delete=models.DO_NOTHING, null=True, blank=True)
     type = models.IntegerField(choices=type_CHOICES, default=2)
     value = models.FloatField(validators=[MinValueValidator(0.0)])
-    description = models.TextField(max_length=255, null=True, blank=True)
-    date = models.DateField(default=datetime.today)
-    recurrence_type = models.IntegerField(choices=recurrence_CHOICES)
+    date = models.DateField(default=datetime.now().date())
+    recurrence_type = models.IntegerField(choices=recurrence_CHOICES, null=True, blank=True)
 
     # def save(self, *args, **kwargs):
     #     if self.recurrence_type:
@@ -59,6 +57,5 @@ class Transaction(GenericModel):
     #             pass
     #         case self.YEARLY:
     #             pass
-
     def __str__(self):
         return self.description
