@@ -1,6 +1,6 @@
 from django.db import models
 
-from account.models.generic import GenericModel
+from finances.models.generic import GenericModel
 
 
 class Category(GenericModel):

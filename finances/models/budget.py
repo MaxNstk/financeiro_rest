@@ -1,4 +1,4 @@
-from account.models.generic import GenericModel
+from finances.models.generic import GenericModel
 from django.db.models import CharField, FloatField
 from django.core.validators import MinValueValidator 
 

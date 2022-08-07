@@ -2,7 +2,7 @@ from datetime import datetime
 
 from django.db import models
 
-from account.models.generic import GenericModel
+from finances.models.generic import GenericModel
 from django.core.validators import MinValueValidator
 
 
@@ -40,25 +40,25 @@ class Transaction(GenericModel):
     date = models.DateField(default=datetime.today)
     recurrence_type = models.IntegerField(choices=recurrence_CHOICES)
 
-    def save(self, *args, **kwargs):
-        if self.recurrence_type:
-            self.create_recurrence_instances()
-        return super(Transaction, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     if self.recurrence_type:
+    #         self.create_recurrence_instances()
+    #     return super(Transaction, self).save(*args, **kwargs)
 
 
-        match self.recurrence_type:
-            case self.WEEKLY:
-                pass
-            case self.BIWEEKLY:
-                pass
-            case self.MONTHLY:
-                pass
-            case self.BI_MONTHLY:
-                pass
-            case self.SEMIANUALLY
-                pass
-            case self.YEARLY:
-                pass
+    #     match self.recurrence_type:
+    #         case self.WEEKLY:
+    #             pass
+    #         case self.BIWEEKLY:
+    #             pass
+    #         case self.MONTHLY:
+    #             pass
+    #         case self.BI_MONTHLY:
+    #             pass
+    #         case self.SEMIANUALLY
+    #             pass
+    #         case self.YEARLY:
+    #             pass
 
     def __str__(self):
         return self.description
