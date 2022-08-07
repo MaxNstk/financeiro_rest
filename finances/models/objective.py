@@ -3,7 +3,7 @@ from finances.models.generic import GenericModel
 from django.db.models import IntegerField, CharField, FloatField
 from django.core.validators import MinValueValidator 
 
-class Objetive(GenericModel):
+class Objective(GenericModel):
 
     GOAL = 1
     BUDGET = 2 

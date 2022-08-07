@@ -1,9 +1,9 @@
 from api.serializers.objective_serializer import ObjetiveSerializer
 from api.viewsets.custom_model_viewset import CustomModelViewSet
-from finances.models import Objective
+from finances.models import SubCategory
 
 
-class ObjectiveViewSet(CustomModelViewSet):
-    model = Objective
+class SubCategoryViewSet(CustomModelViewSet):
+    model = SubCategory
     serializer_class = ObjetiveSerializer
-    queryset = Objective.objects.all()
+    queryset = SubCategory.objects.all()
