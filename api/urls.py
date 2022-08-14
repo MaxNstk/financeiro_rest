@@ -1,6 +1,7 @@
 from django.urls import path, include
 from rest_framework import routers
 from rest_framework.authtoken.views import ObtainAuthToken
+from .views.category_balance import CategoryBalance, MockedCategoryBalance
 
 from api.viewsets.category_viewset import CategoryViewSet
 from api.viewsets.sub_category_viewset import SubCategoryViewSet
@@ -18,4 +19,6 @@ router.register(r'sub_category', SubCategoryViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('auth/', ObtainAuthToken.as_view(), name='auth'),
+    path('category_balance', CategoryBalance.as_view(), name='category_balance'),
+    path('mocked_category_balance', MockedCategoryBalance.as_view(), name='mocked_category_balance'),
 ]
